@@ -34,11 +34,12 @@ filterByDifficulty;
 
 async function sortByDifficulty(data) {
     const list = await data;
-    const sortedByDifficulty = list.sort((a, b) => {
+    const sortedByDifficulty = [...list].sort((a, b) => {
         if (a.difficulty === 'easy' || b.difficulty === 'hard') { return -1; } 
         else if (a.difficulty === 'hard' || b.difficulty === 'easy') { return 1; }  
         else { return 0; }
     });
+    console.log(`list: `, list);
     console.log(`sortedByDifficulty: `, sortedByDifficulty);
 }
 
