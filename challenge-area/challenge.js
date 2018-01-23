@@ -88,20 +88,20 @@ async function countNumOfAttrs(data, attr) {
 
 countNumOfAttrs(fetchedData, 'difficulty');
 
-async function checkSameCategory(data, category) {
+async function checkSame(data, attr, checkVal) {
     let list;
     try {
         list = await data;    
     } catch (error) {
         console.error(error);
     } finally {
-        const checked = list.every( item => item.category === category );
+        const checked = list.every( item => item[attr] === checkVal );
         console.log(`checked: `, checked);
         return checked;
     }
 }
 
-const checkForCompSci = checkSameCategory(fetchedData, "Science: Computers");
+const checkForCompSci = checkSame(fetchedData, 'category', "Science: Computers");
 checkForCompSci;
 
 async function grabAndSort(data, grabBy, filterVal) {
