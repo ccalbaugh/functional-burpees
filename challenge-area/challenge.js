@@ -1,4 +1,5 @@
 const BASE_URL = `https://opentdb.com/api.php?amount=10&category=18`;
+const fetchedData = fetchData(BASE_URL);
 
 async function fetchData(url) {
     let fetchedData, jsonifiedData;
@@ -12,8 +13,6 @@ async function fetchData(url) {
         return results;
     }
 };
-
-const fetchedData = fetchData(BASE_URL);
 
 async function replaceQuotes(data) {
     let list;
@@ -43,8 +42,8 @@ async function pluckByAttr(data, attr, filterVal) {
     }
 }
 
-const pluckByDifficulty = pluckByAttr(fetchedData, 'difficulty', 'easy');
-pluckByDifficulty;
+const pluckAllEasyQs = pluckByAttr(fetchedData, 'difficulty', 'easy');
+pluckAllEasyQs;
 
 async function sortByDifficulty(data) {
     let list;
@@ -64,7 +63,8 @@ async function sortByDifficulty(data) {
     }
 }
 
-sortByDifficulty(fetchedData);
+const sortedByDifficulty = sortByDifficulty(fetchedData);
+sortedByDifficulty;
 
 async function countNumOfAttrs(data, attr) {
     let list;
@@ -86,7 +86,8 @@ async function countNumOfAttrs(data, attr) {
     }
 }
 
-countNumOfAttrs(fetchedData, 'difficulty');
+const countEachDifficulty = countNumOfAttrs(fetchedData, 'difficulty');
+countEachDifficulty;
 
 async function checkSame(data, attr, checkVal) {
     let list;
@@ -104,20 +105,21 @@ async function checkSame(data, attr, checkVal) {
 const checkForCompSci = checkSame(fetchedData, 'category', "Science: Computers");
 checkForCompSci;
 
-async function grabAndSort(data, grabBy, filterVal) {
+async function grabAndSort(data, grabBy, filterBy, sortBy) {
     let list;
     try {
         list = await data;
     } catch (error) {
         console.error(error);
     } finally {
-        const grabbed = await pluckByAttr(list, grabBy, filterVal);
+        const grabbed = await pluckByAttr(list, grabBy, filterBy);
         const sorted = grabbed.sort((a, b) => {
-            return a > b;
+            return a[sortBy] > b[sortBy];
         });
         console.log(`sorted: `, sorted);
         return sorted;
     }
 }
 
-grabAndSort(fetchedData, 'difficulty', 'medium');
+const sortMediumByType = grabAndSort(fetchedData, 'difficulty', 'medium', 'type');
+sortMediumByType;
