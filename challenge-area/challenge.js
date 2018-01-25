@@ -28,25 +28,16 @@ const pluckByAttr = (dataArr, attr, pluckValue) => {
 const pluckAllEasyQs = fetchPromisedQuestions(BASE_URL).then(fetchedData => pluckByAttr(fetchedData, 'difficulty', 'easy'));
 pluckAllEasyQs;
 
-async function sortByDifficulty(data) {
-    let list;
-    try {
-        list = await data;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        const sortedByDifficulty = [...list].sort((a, b) => {
-            if (a.difficulty === 'easy' || b.difficulty === 'hard') { return -1; } 
-            else if (a.difficulty === 'hard' || b.difficulty === 'easy') { return 1; }  
-            else { return 0; }
-        });
-        console.log(`list: `, list);
-        console.log(`sortedByDifficulty: `, sortedByDifficulty);
-        return sortedByDifficulty;
-    }
-}
+const sortByDifficulty = (dataArr) => {
+    const sortedByDifficulty = [...dataArr].sort((a, b) => {
+        if (a.difficulty === 'easy' || b.difficulty === 'hard') { return -1; } 
+        else if (a.difficulty === 'hard' || b.difficulty === 'easy') { return 1; }
+    });
+    console.log(`sortedByDifficulty: `, sortedByDifficulty);
+    return sortedByDifficulty;
+};
 
-const sortedByDifficulty = sortByDifficulty(fetchedData);
+const sortedByDifficulty = fetchPromisedQuestions(BASE_URL).then(sortByDifficulty);
 sortedByDifficulty;
 
 async function countNumOfAttrs(data, attr) {
