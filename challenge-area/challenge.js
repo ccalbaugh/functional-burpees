@@ -10,20 +10,14 @@ async function fetchPromisedQuestions(url) {
     } 
 };
 
-async function replaceQuotes(data) {
-    let list;
-    try {
-        list = await data;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        const replacedQuotes = list.map( result => result.question = result.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'") );
-        console.log(`replacedQuotes: `, replacedQuotes);
-        return replacedQuotes;
-    }
+const replaceAllQuotes = (list) => {
+    const replacedQuotes = list.map( result => ({ ...result, question: result.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'")}) );
+    console.log(`replacedQuotes: `, replacedQuotes);
+    return replacedQuotes;
 }
 
-replaceQuotes(fetchedData);
+const replacedSingleAndDoubleQuotes = fetchPromisedQuestions(BASE_URL).then(replaceAllQuotes);
+replacedSingleAndDoubleQuotes;
 
 async function pluckByAttr(data, attr, filterVal) {
     let list;
