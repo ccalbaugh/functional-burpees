@@ -65,21 +65,11 @@ const checkAllSameValue = (dataArr, attr, checkVal) => {
 const checkForCompSci = fetchPromisedQuestions(BASE_URL).then(fetchedData => checkAllSameValue(fetchedData, 'category', "Science: Computers"));
 checkForCompSci;
 
-async function grabAndSort(data, grabBy, filterBy, sortBy) {
-    let list;
-    try {
-        list = await data;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        const grabbed = await pluckByAttr(list, grabBy, filterBy);
-        const sorted = grabbed.sort((a, b) => {
-            return a[sortBy] > b[sortBy];
-        });
-        console.log(`sorted: `, sorted);
-        return sorted;
-    }
-}
+const grabAndSort = (dataArr, grabBy, filterBy, sortBy) => {
+    const sorted = pluckByAttr(dataArr, grabBy, filterBy).sort( (a, b) => a[sortBy] > b[sortBy] );
+    console.log(`sorted: `, sorted);
+    return sorted;
+};
 
-const sortMediumByType = grabAndSort(fetchedData, 'difficulty', 'medium', 'type');
+const sortMediumByType = fetchPromisedQuestions(BASE_URL).then(fetchedData => grabAndSort(fetchedData, 'difficulty', 'medium', 'type'));
 sortMediumByType;
