@@ -1,17 +1,13 @@
-const BASE_URL = `https://opentdb.com/api.php?amount=10&category=18`;
-const fetchedData = fetchData(BASE_URL);
+const BASE_URL = 'https://opentdb.com/api.php?amount=10&category=18';
 
-async function fetchData(url) {
-    let fetchedData, jsonifiedData;
+async function fetchPromisedQuestions(url) {
     try {
-        fetchedData = await fetch(url);
-        jsonifiedData = await fetchedData.json();
+        const fetchedData = await fetch(url);
+        const jsonifiedData = await fetchedData.json();
+        return await jsonifiedData.results;
     } catch (error) {
         console.error(error);
-    } finally {
-        const results = await jsonifiedData.results;
-        return results;
-    }
+    } 
 };
 
 async function replaceQuotes(data) {
