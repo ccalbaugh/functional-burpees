@@ -56,20 +56,13 @@ const countNumberOfEachAttrValue = (dataArr, attr) => {
 const countEachDifficulty = fetchPromisedQuestions(BASE_URL).then(fetchedData => countNumberOfEachAttrValue(fetchedData, 'difficulty'));
 countEachDifficulty;
 
-async function checkSame(data, attr, checkVal) {
-    let list;
-    try {
-        list = await data;    
-    } catch (error) {
-        console.error(error);
-    } finally {
-        const checked = list.every( item => item[attr] === checkVal );
-        console.log(`checked: `, checked);
-        return checked;
-    }
-}
+const checkAllSameValue = (dataArr, attr, checkVal) => {
+    const checked = dataArr.every( item => item[attr] === checkVal );
+    console.log(`checked: `, checked);
+    return checked;
+};
 
-const checkForCompSci = checkSame(fetchedData, 'category', "Science: Computers");
+const checkForCompSci = fetchPromisedQuestions(BASE_URL).then(fetchedData => checkAllSameValue(fetchedData, 'category', "Science: Computers"));
 checkForCompSci;
 
 async function grabAndSort(data, grabBy, filterBy, sortBy) {
