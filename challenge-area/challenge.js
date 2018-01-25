@@ -40,7 +40,7 @@ const sortByDifficulty = (dataArr) => {
 const sortedByDifficulty = fetchPromisedQuestions(BASE_URL).then(sortByDifficulty);
 sortedByDifficulty;
 
-const countNumOfAttrs = (dataArr, attr) => {
+const countNumberOfEachAttrValue = (dataArr, attr) => {
     const nums = dataArr.reduce((sum, curr) => {
         const match = curr[attr]
         return Object.assign(sum, { [match]: ++sum[match] });
@@ -53,7 +53,7 @@ const countNumOfAttrs = (dataArr, attr) => {
     return nums;
 };
 
-const countEachDifficulty = fetchPromisedQuestions(BASE_URL).then(fetchedData => countNumOfAttrs(fetchedData, 'difficulty'));
+const countEachDifficulty = fetchPromisedQuestions(BASE_URL).then(fetchedData => countNumberOfEachAttrValue(fetchedData, 'difficulty'));
 countEachDifficulty;
 
 async function checkSame(data, attr, checkVal) {
