@@ -19,20 +19,13 @@ const replaceAllQuotes = (list) => {
 const replacedSingleAndDoubleQuotes = fetchPromisedQuestions(BASE_URL).then(replaceAllQuotes);
 replacedSingleAndDoubleQuotes;
 
-async function pluckByAttr(data, attr, filterVal) {
-    let list;
-    try {
-        list = await data;
-    } catch (error) {
-        console.error(error);
-    } finally {
-        const filteredList = list.filter( item => item[attr] === filterVal );
-        console.log(`filteredList: `, filteredList);
-        return filteredList;
-    }
+const pluckByAttr = (dataArr, attr, pluckValue) => {
+    const filteredList = dataArr.filter( item => item[attr] === pluckValue );
+    console.log(`filteredList: `, filteredList);
+    return filteredList;
 }
 
-const pluckAllEasyQs = pluckByAttr(fetchedData, 'difficulty', 'easy');
+const pluckAllEasyQs = fetchPromisedQuestions(BASE_URL).then(fetchedData => pluckByAttr(fetchedData, 'difficulty', 'easy'));
 pluckAllEasyQs;
 
 async function sortByDifficulty(data) {
